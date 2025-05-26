@@ -47,20 +47,16 @@
   <img class="comic" src="comics/1.png" id="comic-image" title="Oh crap! If you're seeing this, then something has gone horribly wrong!" style="width:42px;"/>
   <pre id="output"></pre>
   <script>
-    var dataArray;
     async function getData() {
       const response = await fetch('https://unbihexiumfan.github.io/spce/image_properties.json');
       const data = await response.json();
-      return data;
     }
-    getData().then((data) => {
-        dataArray = data;
-    });
+    getData();
     //const data = '{"max-comic":3,"1":{"title": "Hydrogen","mouseover": "Your chemistry textbooks are WRONG! Hydrogen doesn\'t want two electrons in its outer shell. It doesn\'t want zero electrons in its outer shell. It just wants a friend.","width": 300},"2":{"title": "Helium","mouseover": "He... he... he...","width": 350},"3":{"title": "Lithium","mouseover": "Fun fact: Any other element in place of lithium would either be lying or lyeing. I\'ll let you figure out what that means.","width": 500}}';
     const params = new URLSearchParams(window.location.search);
     var index = Number(params.get("id"));
     if (index == 0) {
-      index = dataArray["max-comic"]
+      index = data["max-comic"]
     }
     function Prev() {
       if (index > 1) {
@@ -69,7 +65,7 @@
       }
     }
     function Next() {
-      if (index < dataArray["max-comic"]) {
+      if (index < data["max-comic"]) {
         index += 1;
       }
       Update();
@@ -80,10 +76,10 @@
 
       const newUrl = `${window.location.pathname}?${params.toString()}`;
       window.history.replaceState({}, "", newUrl); // update the URL without reloading
-      document.getElementById("comic-title").innerHTML = "#"+index.toString()+"- "+dataArray[index.toString()]["title"];
-      document.getElementById("title").innerHTML = "SPCE "+index.toString()+": "+dataArray[index.toString()]["title"];
-      document.getElementById("comic-image").style = "max-width:"+dataArray[index.toString()]["width"]+"px;";
-      document.getElementById("comic-image").title = dataArray[index.toString()]["mouseover"];
+      document.getElementById("comic-title").innerHTML = "#"+index.toString()+"- "+data[index.toString()]["title"];
+      document.getElementById("title").innerHTML = "SPCE "+index.toString()+": "+data[index.toString()]["title"];
+      document.getElementById("comic-image").style = "max-width:"+data[index.toString()]["width"]+"px;";
+      document.getElementById("comic-image").title = data[index.toString()]["mouseover"];
     }
     Update();
   </script>
